@@ -1,0 +1,49 @@
+/*
+======================================
+; Title: game.css 
+; Author: Chris Gorham
+; Date: 04 Jan 2023
+; Description: This code styles various things throughout the Space Game
+; Sources Used: N/A
+;=====================================
+*/
+
+body {
+    background-color: #000;
+    color: #FFF;
+}
+canvas {
+    border: 5px solid #505050;
+    background-color: #f1f1f1;
+}
+
+.controller {
+    float:top;
+}
+
+.directional {
+    font-size: small;
+    padding: 2px;
+    background-color: #505050;
+    width: 75px;
+    color: #fff;
+}
+
+.missile {
+    font-size: small;
+    padding: 2px;
+    background-color: #FF0000;
+    width: 75px;
+    color: #FFF;
+    border-color: #FF0000;
+}
+
+/* unfired / reset missile */
+.missile2 {
+    font-size: small;
+    padding: 2px;
+    background-color: #AAFF00;
+    width: 75px;
+    color: #000;
+    border-color: #AAFF00;
+}

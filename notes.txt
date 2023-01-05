@@ -1,0 +1,1 @@
+document.body.insertBefore(this.canvas, document.body.childNodes[2]);

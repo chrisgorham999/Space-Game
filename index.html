@@ -1,15 +1,62 @@
-<htmL>
-<head>
-    <style>
-        canvas {
-            border: 1px solid #d3d3d3;
-            background-color: #f1f1f1;
-        }
-        </style>
+<!-- 
+======================================
+; Title: Space Game
+; Author: Chris Gorham
+; Date: 04 Jan 2023
+; Description: This code is for the Space Game 
+; Sources Used: 
+; Game Canvas: https://www.w3schools.com/graphics/game_canvas.asp
+; Game Components: https://www.w3schools.com/graphics/game_components.asp
+; Game Images: https://www.w3schools.com/graphics/game_images.asp
+; Starship Controls: https://www.w3schools.com/graphics/game_controllers.asp
+; Game Sounds: https://www.w3schools.com/graphics/game_sound.asp
+; 2D Collision Detection: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+;=====================================
+-->
 
-</head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Space Game by Chris Gorham</title>
+    <link rel="stylesheet" type="text/css" href="game.css">
+
+    <style>
+
+      </style>
+
+  </head>
+
 
 <body>
+<div>
+
+</div>
+<table bordersize="1" bordercolor="#FFFFFF" width="810">
+  <TD bordersize="1" bordercolor="#FFFFFF" id="canvasPlace" align="center">
+    <button class="directional" onclick="moveup()">UP</button>
+    <TR>
+      <TD align="center">
+        <button class="directional" onclick="moveleft()">LEFT</button>
+        <button class="directional" onclick="moveright()">RIGHT</button><br>
+      </TD>
+    </TR>
+  
+  <TD align="center">
+    <button class="directional" onclick="movedown()">DOWN</button><br><br>
+  </TD>
+
+  </TD>
+  <TD>
+    <button class="missile2" id="missile">MISSILE</button>
+  </TD>
+  <TD class="controller"><button onclick="startGame()">START GAME</button>
+  <p id="x"></p>
+  <p id="y"></p>
+  <p id="z"></p></TD>
+</TR>
+</table>
 
 
 <script>
@@ -30,7 +77,7 @@ function startGame() {
     mySound = new sound("laser.wav");
     mySound2 = new sound("enemylaser.wav");
     mySound3 = new sound("explode.ogg");
-    myBackground = new component(1200, 1000, "bg.png", 0, 0, "image");
+    myBackground = new component(800, 600, "bg.png", 0, 0, "image");
     ally1 = new component (41, 38, "ship.png", 10,10, "image");
     myGamePiece = new component(41,38,"ship.png", 10, 120, "image");
     enemy1 = new component (30,30,"enemyship.png", 700, 400, "image");
@@ -41,6 +88,7 @@ function startGame() {
     // this disables the missile button when it is clicked. It is turned back on later when the timer is up.
     document.getElementById("missile").onclick = function() {
     this.disabled = true;
+    document.getElementById("missile").className = "missile";
     fireMissile();
 }
     
@@ -159,10 +207,6 @@ this.enemyBulletCollision = function() {
 
 // This function updates the game area 20 times a second. Anything that needs to be checked during each redraw needs to go here
 function updateGameArea() {
-  document.getElementById("x").innerHTML = enemyBulletShoot;
-  document.getElementById("y").innerHTML = bulletTimer;
-  document.getElementById("z").innerHTML = fatal;
-
   myGameArea.clear();
   myBackground.newPos();
   myBackground.update();
@@ -220,6 +264,7 @@ if (explosionMove > 5) {
 
 if (bulletTimer > 3000) {
     document.getElementById("missile").disabled = false;
+    document.getElementById("missile").className = "missile2";
     bulletTimer = 0;
 }
 
@@ -256,11 +301,12 @@ if (fatal > 0) {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 1200;
-        this.canvas.height = 800;
+        const newCanvas = document.getElementById("cavn")
+        this.canvas.width = 800;
+        this.canvas.height = 600;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);    
+        this.interval = setInterval(updateGameArea, 20);
+        document.body.insertBefore(this.canvas, document.body.childNodes[5]);
     },
     clear : function() {
         this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -334,18 +380,8 @@ function gameOver() {
 
    
 </script>
-<br><center><button onclick="startGame()">START GAME</button>
-    <br><br><br><br>
-    <button onclick="moveup()">UP</button><br>
-    <button onclick="moveleft()">LEFT</button>
-    <button onclick="moveright()">RIGHT</button><br>
-    <button onclick="movedown()">DOWN</button><br><br>
-    <button id="missile">MISSILE</button>
-    </button>
-</center>
-<p id="x"></p>
-<p id="y"></p>
-<p id="z"></p>
+
+
 
 
 </body>

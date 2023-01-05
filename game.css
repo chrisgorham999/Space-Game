@@ -47,3 +47,10 @@ canvas {
     color: #000;
     border-color: #AAFF00;
 }
+
+.table-design {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #FFF;
+    width: 810px;
+}

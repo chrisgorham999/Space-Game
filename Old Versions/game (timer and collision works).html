@@ -1,0 +1,192 @@
+<htmL>
+<head>
+    <style>
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+        </style>
+
+</head>
+
+<body font-color: black>
+
+
+<script>
+  let bulletTimer = 0;
+  let enemyBulletShoot = 0;
+  let firstTime = 0;
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(90,30,"blue", 10, 120);
+    enemy1 = new component (30,30,"red", 700, 400);
+    enemy2 = new component (30,30,"red",700, 550);
+    enemy3 = new component (30,30,"red", 700, 300); 
+
+    document.getElementById("missile").onclick = function() {
+    this.disabled = true;
+    fireMissile();
+}
+    
+}
+
+function component(width, height, color, x, y) {
+  this.width = width;
+  this.height = height;
+  this.speedX = 0;
+  this.speedY = 0;
+  this.x = x;
+  this.y = y;
+  this.update = function() {
+    ctx = myGameArea.context;
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x, this.y, this.width, this.height)
+  }
+this.newPos = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+}
+this.bulletCollision = function() {
+  if (
+    bullet.x < enemy1.x + enemy1.width &&
+    bullet.x + bullet.width > enemy1.x &&
+    bullet.y < enemy1.y + enemy1.height &&
+    bullet.height + bullet.y > enemy1.y) 
+    {
+    enemy1.x = 15000;
+    enemy1.y = 15000;
+} else if (
+  bullet.x < enemy2.x + enemy2.width &&
+    bullet.x + bullet.width > enemy2.x &&
+    bullet.y < enemy2.y + enemy2.height &&
+    bullet.height + bullet.y > enemy2.y) 
+    {
+    enemy2.x = 15000;
+    enemy2.y = 15000;
+} else if (
+  bullet.x < enemy3.x + enemy3.width &&
+    bullet.x + bullet.width > enemy3.x &&
+    bullet.y < enemy3.y + enemy3.height &&
+    bullet.height + bullet.y > enemy3.y) 
+    {
+    enemy3.x = 15000;
+    enemy3.y = 15000; 
+} 
+}
+}
+
+function updateGameArea() {
+  document.getElementById("x").innerHTML = enemyBulletShoot;
+  document.getElementById("y").innerHTML = bulletTimer;
+
+  myGameArea.clear();
+  myGamePiece.newPos();
+  myGamePiece.update();
+
+  if (myGamePiece.x > 700) {
+    myGamePiece.x = 700;
+  }
+
+  else if (myGamePiece.x < 10) {
+    myGamePiece.x = 10;
+  }
+
+  else if (myGamePiece.y > 565) {
+    myGamePiece.y = 565;
+  }
+
+  else if (myGamePiece.y < 20) {
+    myGamePiece.y = 20;
+  }
+
+  enemy1.x += -1;
+  enemy1.update();
+  enemy2.x += -.1;
+  enemy2.update();
+  enemy3.x += -.3;
+  enemy3.update();
+
+  if (bulletTimer > 999) {
+  bullet.x += 10;
+  bullet.update();
+  bullet.bulletCollision();
+  bulletTimer += 10;
+}
+
+if (bulletTimer > 3000) {
+    document.getElementById("missile").disabled = false;
+    bulletTimer = 0;
+}
+
+if (enemy3.x < 500 && firstTime < 1) {
+  fireEnemyMissile();
+}
+
+if (enemyBulletShoot > 0) {
+  enemyBullet.x += -5;
+  enemyBullet.update();
+}
+
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 800;
+        this.canvas.height = 600;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);    
+    },
+    clear : function() {
+        this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function fireEnemyMissile() {
+  enemyBullet = new component (10,10,"black", enemy3.x -5, enemy3.y);
+  enemyBulletShoot = 1;
+  firstTime += 5;
+}
+
+function moveup() {
+  myGamePiece.speedY -= 1;
+}
+
+function movedown() {
+  myGamePiece.speedY += 1;
+}
+
+function moveleft() {
+  myGamePiece.speedX -= 1;
+}
+
+function moveright() {
+  myGamePiece.speedX += 1;
+}
+
+function fireMissile() {
+        bullet = new component (10,10,"black", myGamePiece.x +50, myGamePiece.y);
+        bulletTimer = 1000;
+    }
+
+
+   
+</script>
+<br><center><button onclick="startGame()">START GAME</button>
+    <br><br><br><br>
+    <button onclick="moveup()">UP</button><br>
+    <button onclick="moveleft()">LEFT</button>
+    <button onclick="moveright()">RIGHT</button><br>
+    <button onclick="movedown()">DOWN</button><br><br>
+    <button id="missile">MISSILE</button>
+    </button>
+</center>
+<p id="bulletTimerTest"></p> 
+<p id="x"></p>
+<p id="y"></p>
+
+
+</body>
+
+</html>

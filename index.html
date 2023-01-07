@@ -36,10 +36,10 @@
 
 </div>
 <table class="table-design">
-  <TD align="center">
+  <TD>
     <table>
       <TR>
-        <TD align="center">
+        <TD align="center" class="table-center">
           <button class="directional" onclick="moveup()">UP</button><br><br>
           <button class="directional" onclick="moveleft()">LEFT</button>
           <button class="directional" onclick="moveright()">RIGHT</button><br><br>
@@ -54,7 +54,7 @@
   </TD>
 
   <TD align="left">
-    <button class="controller" onclick="startGame()">START GAME</button>
+    <button class="start" onclick="startGame()">START GAME</button>
   </TD>
 
   <TD align="left">
@@ -97,14 +97,16 @@ function startGame() {
     mySound = new sound("laser.wav");
     mySound2 = new sound("enemylaser.wav");
     mySound3 = new sound("explode.ogg");
-    myBackground = new component(800, 600, "bg.png", 0, 0, "image");
+    myBackground = new component(1400, 600, "bg.png", 0, 0, "image");
     ally1 = new component (41, 38, "ship.png", 10,10, "image");
     myGamePiece = new component(41,38,"ship.png", 10, 120, "image");
     enemy1 = new component (30,30,"enemyship.png", 700, 400, "image");
     enemy2 = new component (30,30,"enemyship.png",700, 550, "image");
     enemy3 = new component (30,30,"enemyship.png", 700, 300, "image");
-    explode = new component (30,30,"explosion.gif", 1000, 1000, "image"); 
-    myShield = new component ("20px", "arial", "orange", 100, 20, "text");
+    explode = new component (30,30,"explosion.gif", 1000, 1000, "image");
+    explode2 = new component (30,30, "explosion.gif", 1100,1100, "image"); 
+    myShield = new component ("35px", "Space Grotesk", "orange", 100, 30, "text");
+    myScore = new component ("35px", "Space Grotesk", "orange", 400,30, "text")
 
     // this disables the missile button when it is clicked. It is turned back on later when the timer is up.
     document.getElementById("missile").onclick = function() {
@@ -167,7 +169,7 @@ this.bulletCollision = function() {
     bullet.y = 14000;
     score += 1000;
 } else if (
-  bullet.x < enemy2.x + enemy2.width &&
+    bullet.x < enemy2.x + enemy2.width &&
     bullet.x + bullet.width > enemy2.x &&
     bullet.y < enemy2.y + enemy2.height &&
     bullet.height + bullet.y > enemy2.y) 
@@ -182,7 +184,7 @@ this.bulletCollision = function() {
     bullet.y = 14000;
     score += 1000;
 } else if (
-  bullet.x < enemy3.x + enemy3.width &&
+    bullet.x < enemy3.x + enemy3.width &&
     bullet.x + bullet.width > enemy3.x &&
     bullet.y < enemy3.y + enemy3.height &&
     bullet.height + bullet.y > enemy3.y) 
@@ -198,7 +200,7 @@ this.bulletCollision = function() {
     score += 1000;
 } 
 }
-// does the collision for the enemy bullets
+// does the collision for the enemy bullets against myGamePiece
 this.enemyBulletCollision = function() {
   if (
     enemyBullet.x < myGamePiece.x + myGamePiece.width &&
@@ -207,7 +209,7 @@ this.enemyBulletCollision = function() {
     enemyBullet.height + enemyBullet.y > myGamePiece.y)
    {
     mySound3.play();
-    fatal = 1;
+    shield -= 1;
    } else if (
     enemyBullet2.x < myGamePiece.x + myGamePiece.width &&
     enemyBullet2.x + enemyBullet2.width > myGamePiece.x &&
@@ -215,7 +217,8 @@ this.enemyBulletCollision = function() {
     enemyBullet2.height + enemyBullet2.y > myGamePiece.y)
     {
       mySound3.play();
-      fatal = 1;
+      shield -= 1;
+// does the collision for the enemy bullets against allies
     } else if (
     enemyBullet2.x < ally1.x + ally1.width &&
     enemyBullet2.x + enemyBullet2.width > ally1.x &&
@@ -231,7 +234,48 @@ this.enemyBulletCollision = function() {
       enemyBullet2.x = 16000;
       enemyBullet2.y = 16000;
       firstTime = 0;
+// does the collision for enemy ships against myGamePiece
+    } else if (
+    enemy3.x < myGamePiece.x + myGamePiece.width &&
+    enemy3.x + enemy3.width > myGamePiece.x &&
+    enemy3.y < myGamePiece.y + myGamePiece.height &&
+    enemy3.height + enemy3.y > myGamePiece.y) 
+    {
+      mySound3.play();
+      explode.x = enemy3.x
+      explode.y = enemy3.y
+      enemy3.x = 18000;
+      enemy3.y = 18000;
+      explosionMarker +=1;
+      shield -= 55;
+    } else if (
+    enemy2.x < myGamePiece.x + myGamePiece.width &&
+    enemy2.x + enemy2.width > myGamePiece.x &&
+    enemy2.y < myGamePiece.y + myGamePiece.height &&
+    enemy2.height + enemy2.y > myGamePiece.y) 
+    {
+      mySound3.play();
+      explode.x = enemy2.x
+      explode.y = enemy2.y
+      enemy2.x = 18000;
+      enemy2.y = 18000;
+      explosionMarker +=1;
+      shield -= 55;
+    } else if (
+    enemy1.x < myGamePiece.x + myGamePiece.width &&
+    enemy1.x + enemy1.width > myGamePiece.x &&
+    enemy1.y < myGamePiece.y + myGamePiece.height &&
+    enemy1.height + enemy1.y > myGamePiece.y) 
+    {
+      mySound3.play();
+      explode.x = enemy1.x
+      explode.y = enemy1.y
+      enemy1.x = 18000;
+      enemy1.y = 18000;
+      explosionMarker +=1;
+      shield -= 55;
     }
+
 }
 }
 
@@ -285,6 +329,10 @@ if (explosionMove > 5) {
   myShield.text="SHIELD: " + shield;
   myShield.update();
 
+  // Update the Score
+  myScore.text="SCORE: " + score;
+  myScore.update();
+
   //Update the allies
   ally1.x +=.6;
   ally1.y +=.6;
@@ -326,6 +374,11 @@ if (enemyBulletShoot > 0) {
   enemyBullet2.enemyBulletCollision();
 }
 
+// if the shield  values drops below 0, fatal is increased to greater than 0 and the game is ended
+if (shield < 1) {
+  fatal += 1;
+}
+
 // ends the game if myGamePiece is hit by an enemy bullet
 if (fatal > 0) {
   myGameArea.stop();
@@ -339,7 +392,7 @@ var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         const newCanvas = document.getElementById("canvas")
-        this.canvas.width = 800;
+        this.canvas.width = 1400;
         this.canvas.height = 600;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateGameArea, 20);
@@ -406,13 +459,6 @@ function fireMissile() {
         mySound.play();
         bulletTimer = 1000;
     }
-
-function gameOver() {
-    fatal = 0;
-    document.get;
-
-}
-
 
 
    

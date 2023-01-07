@@ -15,44 +15,61 @@ body {
 }
 
 canvas {
-    border: 5px solid #505050;
-    background-color: #f1f1f1;
+    border: 5px solid #fff;
+    background-color: #000;
 }
 
-.controller {
+.start {
     float:top;
+    font-size: large;
+    padding: 6px;
+    background-color: #FFF000;
+    width: 150px;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+
 }
 
 .directional {
-    font-size: small;
-    padding: 2px;
+    font-size: medium;
+    padding: 6px;
     background-color: #505050;
-    width: 75px;
+    width: 100px;
     color: #fff;
+    border: none;
+    border-radius: 8px;
 }
 
 .missile {
-    font-size: small;
-    padding: 2px;
+    font-size: large;
+    padding: 6px;
     background-color: #FF0000;
-    width: 75px;
+    width: 150px;
     color: #FFF;
-    border-color: #FF0000;
+    border-radius: 8px;
+    border: none;
 }
 
 /* unfired / reset missile */
 .missile2 {
-    font-size: small;
-    padding: 2px;
+    font-size: large;
+    padding: 6px;
     background-color: #AAFF00;
-    width: 75px;
+    width: 150px;
     color: #000;
     border-color: #AAFF00;
+    border-radius: 8px;
+    border: none;
 }
 
 .table-design {
     border-style: solid;
     border-width: 3px;
     border-color: #FFF;
-    width: 810px;
+    width: 1410px;
+}
+
+.table-center {
+    padding: 10px;
 }
